@@ -47,9 +47,9 @@ ifeq ($(support_verilator_4), 0)
 	verilator_threads := 1
 endif
 
-ifndef RISCV
-$(error RISCV not set - please point your RISCV variable to your RISCV installation)
-endif
+#ifndef RISCV
+#$(error RISCV not set - please point your RISCV variable to your RISCV installation)
+#endif
 
 # By default assume spike resides at the RISCV prefix.
 SPIKE_ROOT     ?= $(RISCV)
@@ -606,7 +606,7 @@ verilate_command := $(verilator)                                                
                     $(if $(DROMAJO), -DDROMAJO=1,)                                                               \
                     $(if $(PROFILE),--stats --stats-vars --profile-cfuncs,)                                      \
                     $(if $(DEBUG),--trace --trace-structs,)                                                      \
-                    -LDFLAGS "-L$(RISCV)/lib -L$(SPIKE_ROOT)/lib -Wl,-rpath,$(RISCV)/lib -Wl,-rpath,$(SPIKE_ROOT)/lib -lfesvr$(if $(PROFILE), -g -pg,) $(if $(DROMAJO), -L../corev_apu/tb/dromajo/src -ldromajo_cosim,) -lpthread" \
+                    -LDFLAGS "-Wl,-rpath, -Wl,-rpath, -lfesvr$(if $(PROFILE), -g -pg,) $(if $(DROMAJO), -L../corev_apu/tb/dromajo/src -ldromajo_cosim,) -lpthread" \
                     -CFLAGS "$(CFLAGS)$(if $(PROFILE), -g -pg,) $(if $(DROMAJO), -DDROMAJO=1,) -DVL_DEBUG"       \
                     -Wall --cc  --vpi                                                                            \
                     $(list_incdir) --top-module ariane_testharness                                               \
